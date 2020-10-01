@@ -5,6 +5,7 @@
 </div>
 <div class="col-xs-12">
   <h2> Mes Appareils</h2>
+  <p>Mis à jour : {{ lastUpdate | async | date: 'dd/M/yyyy hh:mm:ss' }}</p>
   <ul class="list-group">
       <app-comp-test  *ngFor="let appareil of appareils"
                       [appareilName]="appareil.name"
