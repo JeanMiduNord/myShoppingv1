@@ -6,19 +6,42 @@ import { AppComponent } from './app.component';
 import { CompTestComponent } from './comp-test/comp-test.component';
 import { FormsModule } from '@angular/forms';
 import { AppareilService} from './services/appareil.service';
+import { AuthComponent } from './auth/auth.component';
+import { AppareilViewComponent } from './appareil-view/appareil-view.component';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthService} from './services/auth.service';
+import { SingleAppareilComponent } from './single-appareil/single-appareil.component';
+import {AuthGuard} from './services/auth-guard.service';
+import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
+
+const appRoutes: Routes = [
+  {path: 'auth', component: AuthComponent},
+  {path: 'appareils', canActivate: [AuthGuard], component: AppareilViewComponent},
+  {path: 'appareils/:id', canActivate: [AuthGuard], component: SingleAppareilComponent},
+  {path : '', component: AppareilViewComponent},
+  {path: 'not-found', component: FourOhFourComponent },
+  {path: '**', redirectTo: 'not-found' }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CompTestComponent
+    CompTestComponent,
+    AuthComponent,
+    AppareilViewComponent,
+    SingleAppareilComponent,
+    FourOhFourComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    AppareilService
+    AppareilService,
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
